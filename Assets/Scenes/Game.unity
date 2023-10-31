@@ -1054,6 +1054,7 @@ MonoBehaviour:
   _bullet: {fileID: 1506816652162854162, guid: 187f49ca231fa5741874362b177712ca, type: 3}
   _shootPoint: {fileID: 1774824514}
   _delayBeetwenShoots: 0.3
+  _recoilDistance: 0.5
 --- !u!1 &1774824513
 GameObject:
   m_ObjectHideFlags: 0
