@@ -14,4 +14,13 @@ public class Bullet : MonoBehaviour
     {
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.TryGetComponent(out Block block))
+        {
+            block.BulletHit?.Invoke(block);
+            Destroy(gameObject);
+        }
+    }
 }
