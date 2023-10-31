@@ -5,6 +5,9 @@ using UnityEngine.Events;
 [RequireComponent(typeof(TowerBuilder))]
 public class Tower : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem _blockDestroyEffect;
+    [SerializeField] private Color[] _colors;
+
     private TowerBuilder _towerBuilder;
     private List<Block> _blocks;
 
@@ -18,6 +21,7 @@ public class Tower : MonoBehaviour
 
         foreach (Block block in _blocks)
         {
+            block.GetComponent<MeshRenderer>().material.color = _colors[Random.Range(0, _colors.Length)];
             block.BulletHit += OnBulletHit;
         }
 
@@ -27,6 +31,8 @@ public class Tower : MonoBehaviour
     private void OnBulletHit(Block hitedBlock)
     {
         hitedBlock.BulletHit -= OnBulletHit;
+
+        SpawnDestroyBlockEffect(hitedBlock);
 
         _blocks.Remove(hitedBlock);
 
@@ -39,5 +45,11 @@ public class Tower : MonoBehaviour
         }
 
         SizeUpdated?.Invoke(_blocks.Count);
+    }
+
+    private void SpawnDestroyBlockEffect(Block hitedBlock)
+    {
+        ParticleSystemRenderer particleSystemRenderer = Instantiate(_blockDestroyEffect, hitedBlock.transform.position, _blockDestroyEffect.transform.rotation).GetComponent<ParticleSystemRenderer>();
+        particleSystemRenderer.material.color = hitedBlock.GetComponent<MeshRenderer>().material.color;
     }
 }
